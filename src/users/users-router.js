@@ -42,8 +42,8 @@ usersRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { firstname, lastname, username, password } = req.body
-    const newUser = { firstname, lastname, username }
+    const { firstname, lastname, email } = req.body
+    const newUser = { firstname, lastname, email }
 
     for (const [key, value] of Object.entries(newUser)) {
       if (value == null) {
@@ -52,8 +52,6 @@ usersRouter
         })
       }
     }
-
-    newUser.password = password;
 
     UsersService.insertUser(
       req.app.get('db'),
@@ -90,6 +88,7 @@ usersRouter
     res.json(serializeUser(res.user))
   })
   .delete((req, res, next) => {
+
     UsersService.deleteUser(
       req.app.get('db'),
       req.params.user_id
@@ -100,14 +99,14 @@ usersRouter
       .catch(next)
   })
   .patch(jsonParser, (req, res, next) => {
-    const { firstname, lastname, username, password } = req.body
-    const userToUpdate = { firstname, lastname, username, password }
+    const { firstname, lastname, email } = req.body
+    const userToUpdate = { firstname, lastname, email }
 
     const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-          message: `Request body must contain either 'firstname', 'lastname', 'username', or 'password'`
+          message: `Request body must contain either 'firstname', 'lastname', or 'email'`
         }
       })
 
@@ -121,7 +120,7 @@ usersRouter
       })
       .catch(next)
   })
-
+//everything above this works :D
   usersRouter
     .route('/:user_id/lists')
     .get((req, res) => {
@@ -131,9 +130,35 @@ usersRouter
       )
     .then(lists => {
       res.json(lists.map(serializeList))
-    })
+    }) 
   })
+    .post(jsonParser, (req, res, next) => {
+      const { name, author } = req.body
+    // How do I identify that author is the user_id?
+      const newList = { name, author }
+     newList.author = req.params.user_id
 
+      for (const [key, value] of Object.entries(newList)) {
+        if (value == null) {
+          return res.status(400).json({
+            error: { message: `Missing '${key}' in request body` }
+          })
+        }
+      }
+      UsersService.insertList(
+        req.app.get('db'),
+        req.params.
+        newList
+      )
+        .then(list => {
+          res
+            .status(201)
+            //need to figure out how to add id...? I thought it was generated automatically...do I need to fetch it or something...?
+            .location(path.posix.join(req.originalUrl, `/:user_id/lists/${list.id}`))
+            .json(serializeList(list))
+        })
+        .catch(next)
+      })
   usersRouter
   .route('/:user_id/lists/:list_id')
   .get((req, res) => {
@@ -145,6 +170,35 @@ usersRouter
   .then(items => {
     res.json(items.map(serializeItem))
   })
+})
+.post(jsonParser, (req, res, next) => {
+  // const { name, content, priority, list_id, user_id } = req.body
+  // const newItem = { name, content, priority, list_id, user_id }
+
+  // newItem.list_id = req.params.list_id;
+  // newItem.user_id = req.params.user_id;
+  // for (const [key, value] of Object.entries(newItem)) {
+  //   if (value == null) {
+  //     return res.status(400).json({
+  //       error: { message: `Missing '${key}' in request body` }
+  //     })
+  //   }
+  // }
+  res.send('I am working')
+  // UsersService.insertItem(
+  //   req.app.get('db'),
+  //   newItem
+  // )
+  //   .then(item => {
+  //     res
+  //       .status(201)
+  //       .json(serializeItem(item))
+  //   })
+  //   .catch(next)
+}) 
+
+
+
 
   usersRouter
   .route('/auth')
@@ -159,6 +213,5 @@ usersRouter
   // .then(items => {
   //   // res.json(items.map(serializeItem))
   })
-})
 
 module.exports = usersRouter

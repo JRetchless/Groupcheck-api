@@ -38,6 +38,16 @@ const UsersService = {
     getListItems(knex, user_id, list_id) {
       return knex.select('*').from('groupcheck_items').where('user_id', user_id).andWhere('list_id', list_id)
     },
+    insertList(knex, newList) {
+      return knex
+        .insert(newList)
+        .into('groupcheck_lists')
+        .returning('*')
+        .then(rows => {
+          return rows[0]
+        })
+    },
+  
   }
   
   module.exports = UsersService
