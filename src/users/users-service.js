@@ -47,6 +47,15 @@ const UsersService = {
           return rows[0]
         })
     },
+    insertItem(knex, newItem) {
+      return knex
+        .insert(newItem)
+        .into('groupcheck_items')
+        .returning('*')
+        .then(rows => {
+          return rows[0]
+        })
+    }
   
   }
   
