@@ -147,14 +147,11 @@ usersRouter
       }
       UsersService.insertList(
         req.app.get('db'),
-        req.params.
         newList
       )
         .then(list => {
           res
             .status(201)
-            //need to figure out how to add id...? I thought it was generated automatically...do I need to fetch it or something...?
-            .location(path.posix.join(req.originalUrl, `/:user_id/lists/${list.id}`))
             .json(serializeList(list))
         })
         .catch(next)
