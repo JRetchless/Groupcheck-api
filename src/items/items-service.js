@@ -1,7 +1,7 @@
 // const ItemsService = {
-//     getAllItems(knex, list_id) {
-//       return knex.select('*').from('groupcheck_items').where('list_id', list_id)
-//     },
+//     getListItems(knex, user_id, list_id) {
+//         return knex.select('*').from('groupcheck_items').where('user_id', user_id).andWhere('list_id', list_id)
+//       },
 //     insertItem(knex, newItem) {
 //       return knex
 //         .insert(newItem)
@@ -12,7 +12,11 @@
 //         })
 //     },
 //     getById(knex, id) {
-//       return knex.from('groupcheck_items').select('*').where('id', id).first()
+//       return knex
+//       .from('groupcheck_items')
+//       .select('*')
+//       .where('id', id)
+//       .first()
 //     },
 //     deleteItem(knex, id) {
 //       return knex('groupcheck_items')

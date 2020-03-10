@@ -6,11 +6,20 @@ const {CLIENT_ORIGIN} = require('./config');
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 // const {API_BASE_URL} = require('./config');
-// const listsRouter = require('./lists/lists-router');
+const listsRouter = require('./lists/lists-router');
 const usersRouter = require('./users/users-router');
-// const itemsRouter = require('./items/items-router');
+const itemsRouter = require('./items/items-router');
+const session = require('express-session');
 
 const app = express()
+
+app.set('trust proxy', 1) 
+// trust first proxy 
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { secure: true } }))
+//write piece of middleware that verifies that they were logged in before I give them access to routes
+//now each request will have a session field so I can use that field to store some data about each session
+//
+
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -19,10 +28,14 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
-
-// app.use('/api/items', itemsRouter)
-// app.use('/api/lists', listsRouter)
+//usersRouter uses /api/users. If I have listsRouter and itemsRouter as /lists and /:list_id, will they be called if my path is /api/users/lists and /api/users/lists/:list_id?
+//could I be using the routes /api/users, /api/:user_id, /api/:user_id/lists, and /api/:user_id/:list_id?
 app.use('/api/users', usersRouter)
+// app.use('/api/:user_id', usersRouter)
+// app.use('/api/users/:user_id', listsRouter)
+// app.use('/api/:user_id/:list_id', itemsRouter )
+app.use('/api/login', usersRouter)
+
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')
