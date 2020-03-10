@@ -33,7 +33,7 @@ const serializeItem = item => ({
 })
 
 usersRouter
-  .route('/')
+  .route('/signup')
   .post(jsonParser, (req, res, next) => {
     const { firstname, lastname, email, p_word } = req.body
     const hashp_word = md5(p_word)
@@ -58,16 +58,16 @@ usersRouter
           .json(serializeUser(user))
       })
       .catch(next)
-  })
+})
 
-  usersRouter
+usersRouter
   .post('/login',function(req,res){ 
     knex('groupcheck_users').where('email',req.body['email']).where('p_word',md5(req.body['p_word'])).first() 
     .then(function(user){ if(user){ req.session.user=user; res.status(200).end(); }
      else{ res.status(404).end();
      }
      })
-  })
+})
 
   //make another post for login, piece of middleware for routes other than login (you want to authenticate everything else)
   //this is why the routes should be split up. For all of the routes other than the users route you want the auth middleware
