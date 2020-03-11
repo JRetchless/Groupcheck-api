@@ -2,38 +2,40 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const AuthService = require('./auth-service')
-const knex = require('knex');
+
 
 const md5 = require('md5')
 
 const authRouter = express.Router()
 const jsonParser = express.json()
 
-// // const serializeList = list => ({
-// //   id: list.id,
-// //   name: xss(list.name),
-// //   content: xss(list.content),
-// //   date_published: list.date_published,
-// //   author: list.author,
-// // })
+const serializeUser = user => ({
+  id: user.id,
+  firstname: xss(user.firstname),
+  lastname: xss(user.lastname),
+  email: xss(user.email),
+  date_created: user.date_created,
+  p_word: user.p_word
+})
 
 
 
 authRouter
   .route('/')
   .post(jsonParser,function(req,res){
-
+    console.log(req.session)
     let { email, p_word } = req.body
     p_word= md5(p_word)
 
     AuthService.getUser(
-      req.app.get('db'), req.body.email, p_word
+      req.app.get('db'), email, p_word
     )
     .then(data => {
-      res.json({"user_id": data.id})
+      // res.json({"testing": data.email})
 
-      if(data && data['id']){
-        res.json({"status": 'success'})
+      if(data){
+        const user = serializeUser(data)
+        res.json({"status": 'success', 'user_id': user.id})
       }
       res.status(400).end()
     })
