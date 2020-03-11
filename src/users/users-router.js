@@ -32,45 +32,8 @@ const serializeItem = item => ({
   user_id: item.user_id
 })
 
-usersRouter
-  .route('/signup')
-  .post(jsonParser, (req, res, next) => {
-    const { firstname, lastname, email, p_word } = req.body
-    const hashp_word = md5(p_word)
-    const newUser = { firstname, lastname, email, hashp_word }
-
-    for (const [key, value] of Object.entries(newUser)) {
-      if (value == null) {
-        return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        })
-      }
-    }
-
-    UsersService.insertUser(
-      req.app.get('db'),
-      newUser
-    )
-      .then(user => {
-        res
-          .status(201)
-          .location(path.posix.join(req.originalUrl, `/${user.id}`))
-          .json(serializeUser(user))
-      })
-      .catch(next)
-})
-
-usersRouter
-  .post('/login',function(req,res){ 
-    knex('groupcheck_users').where('email',req.body['email']).where('p_word',md5(req.body['p_word'])).first() 
-    .then(function(user){ if(user){ req.session.user=user; res.status(200).end(); }
-     else{ res.status(404).end();
-     }
-     })
-})
-
-  //make another post for login, piece of middleware for routes other than login (you want to authenticate everything else)
-  //this is why the routes should be split up. For all of the routes other than the users route you want the auth middleware
+//make another post for login, piece of middleware for routes other than login (you want to authenticate everything else)
+//this is why the routes should be split up. For all of the routes other than the users route you want the auth middleware
 
 usersRouter
   .route('/:user_id')
@@ -94,11 +57,10 @@ usersRouter
     res.json(serializeUser(res.user))
   })
   .delete((req, res, next) => {
-
-    UsersService.deleteUser(
-      req.app.get('db'),
-      req.params.user_id
-    )
+      UsersService.deleteUser(
+        req.app.get('db'),
+        req.params.user_id
+      )
       .then(numRowsAffected => {
         res.status(204).end()
       })
@@ -136,7 +98,7 @@ usersRouter
   //     )
   //   .then(lists => {
   //     res.json(lists.map(serializeList))
-  //   }) 
+  //   })
   // })
   //   .post(jsonParser, (req, res, next) => {
   //     const { name, author } = req.body
@@ -171,7 +133,7 @@ usersRouter
   //         })
   //         .catch(next)
   //     })
-      usersRouter
+usersRouter
   .route('/:user_id/lists/:list_id')
   .get((req, res) => {
     UsersService.getListItems(
@@ -206,10 +168,7 @@ usersRouter
         .json(serializeItem(item))
     })
     .catch(next)
-}) 
-
-
-
+})
 
   // usersRouter
   // .route('/auth')
