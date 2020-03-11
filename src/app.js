@@ -31,10 +31,13 @@ app.use(cors())
 //usersRouter uses /api/users. If I have listsRouter and itemsRouter as /lists and /:list_id, will they be called if my path is /api/users/lists and /api/users/lists/:list_id?
 //could I be using the routes /api/users, /api/:user_id, /api/:user_id/lists, and /api/:user_id/:list_id?
 app.use('/api/users', usersRouter)
+app.use('/api/lists', listsRouter)
+app.use('/api/items', itemsRouter)
 // app.use('/api/:user_id', usersRouter)
 // app.use('/api/users/:user_id', listsRouter)
 // app.use('/api/:user_id/:list_id', itemsRouter )
 app.use('/api/login', usersRouter)
+app.use('/api/signup', usersRouter)
 
 
 app.get('/', (req, res) => {

@@ -127,50 +127,50 @@ usersRouter
       .catch(next)
   })
 // everything above this works :D
-  usersRouter
-    .route('/:user_id/lists')
-    .get((req, res) => {
-      UsersService.getAllLists(
-        req.app.get('db'),
-        req.params.user_id
-      )
-    .then(lists => {
-      res.json(lists.map(serializeList))
-    }) 
-  })
-    .post(jsonParser, (req, res, next) => {
-      const { name, author } = req.body
-      const newList = { name, author }
-     newList.author = req.params.user_id
+  // usersRouter
+  //   .route('/:user_id/lists')
+  //   .get((req, res) => {
+  //     UsersService.getAllLists(
+  //       req.app.get('db'),
+  //       req.params.user_id
+  //     )
+  //   .then(lists => {
+  //     res.json(lists.map(serializeList))
+  //   }) 
+  // })
+  //   .post(jsonParser, (req, res, next) => {
+  //     const { name, author } = req.body
+  //     const newList = { name, author }
+  //    newList.author = req.params.user_id
 
-      for (const [key, value] of Object.entries(newList)) {
-        if (value == null) {
-          return res.status(400).json({
-            error: { message: `Missing '${key}' in request body` }
-          })
-        }
-      }
-      UsersService.insertList(
-        req.app.get('db'),
-        newList
-      )
-        .then(list => {
-          res
-            .status(201)
-            .json(serializeList(list))
-        })
-        .catch(next)
-      })
-      .delete((req, res, next) => {
-        UsersService.deleteList(
-          req.app.get('db'),
-          req.params.list_id
-        )
-          .then(numRowsAffected => {
-            res.status(204).end()
-          })
-          .catch(next)
-      })
+  //     for (const [key, value] of Object.entries(newList)) {
+  //       if (value == null) {
+  //         return res.status(400).json({
+  //           error: { message: `Missing '${key}' in request body` }
+  //         })
+  //       }
+  //     }
+  //     UsersService.insertList(
+  //       req.app.get('db'),
+  //       newList
+  //     )
+  //       .then(list => {
+  //         res
+  //           .status(201)
+  //           .json(serializeList(list))
+  //       })
+  //       .catch(next)
+  //     })
+  //     .delete((req, res, next) => {
+  //       UsersService.deleteList(
+  //         req.app.get('db'),
+  //         req.params.list_id
+  //       )
+  //         .then(numRowsAffected => {
+  //           res.status(204).end()
+  //         })
+  //         .catch(next)
+  //     })
       usersRouter
   .route('/:user_id/lists/:list_id')
   .get((req, res) => {
