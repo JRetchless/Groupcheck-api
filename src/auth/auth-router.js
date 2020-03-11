@@ -4,7 +4,23 @@ const xss = require('xss')
 const AuthService = require('./auth-service')
 
 const authRouter = express.Router()
-// const jsonParser = express.json()
+const jsonParser = express.json()
+
+
+usersRouter
+  .post('/login',function(req,res){ 
+    knex('groupcheck_users').where('email',req.body['email']).where('p_word',md5(req.body['p_word'])).first() 
+    .then(function(user){ if(user){ req.session.user=user; res.status(200).end(); }
+     else{ res.status(404).end();
+     }
+     })
+})
+
+
+    //post method typically used in http calls when you want to mask the data. Information becomes unavailable to the user (not in the url parameters)
+  //make another post for login, piece of middleware for routes other than login (you want to authenticate everything else)
+  //this is why the routes should be split up. For all of the routes other than the users route you want the auth middleware
+
 
 // // const serializeList = list => ({
 // //   id: list.id,
@@ -103,4 +119,4 @@ const authRouter = express.Router()
 //       .catch(next)
 //   })
 
-// module.exports = listsRouter
+module.exports = authRouter

@@ -6,9 +6,10 @@ const {CLIENT_ORIGIN} = require('./config');
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 // const {API_BASE_URL} = require('./config');
-const listsRouter = require('./lists/lists-router');
+// const listsRouter = require('./lists/lists-router');
 const usersRouter = require('./users/users-router');
-const itemsRouter = require('./items/items-router');
+// const itemsRouter = require('./items/items-router');
+const authRouter = require('./auth/auth-router');
 const session = require('express-session');
 
 const app = express()
@@ -31,13 +32,13 @@ app.use(cors())
 //usersRouter uses /api/users. If I have listsRouter and itemsRouter as /lists and /:list_id, will they be called if my path is /api/users/lists and /api/users/lists/:list_id?
 //could I be using the routes /api/users, /api/:user_id, /api/:user_id/lists, and /api/:user_id/:list_id?
 app.use('/api/users', usersRouter)
-app.use('/api/lists', listsRouter)
-app.use('/api/items', itemsRouter)
+// app.use('/api/lists', listsRouter)
+// app.use('/api/items', itemsRouter)
 // app.use('/api/:user_id', usersRouter)
 // app.use('/api/users/:user_id', listsRouter)
 // app.use('/api/:user_id/:list_id', itemsRouter )
-app.use('/api/login', usersRouter)
-app.use('/api/signup', usersRouter)
+app.use('/api/login', authRouter)
+// app.use('/api/signup', usersRouter)
 
 
 app.get('/', (req, res) => {
