@@ -8,7 +8,7 @@ const { NODE_ENV } = require('./config')
 // const {API_BASE_URL} = require('./config');
 // const listsRouter = require('./lists/lists-router');
 const usersRouter = require('./users/users-router');
-const authRouter = require('./users/auth-router');
+const authRouter = require('./auth/auth-router');
 // const itemsRouter = require('./items/items-router');
 const session = require('express-session');
 
@@ -38,7 +38,7 @@ app.use('/api/users', usersRouter)
 app.use('/api/users/:user_id', usersRouter)
 // app.use('/api/:user_id/:list_id', itemsRouter )
 app.use('/api/login', authRouter)
-app.use('/api/signup', usersRouter)
+
 
 
 app.get('/', (req, res) => {

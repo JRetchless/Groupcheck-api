@@ -14,33 +14,7 @@ const authRouter = express.Router()
 // //   author: list.author,
 // // })
 
-// authRouter
-//   .route('/signup')
-//   .post(jsonParser, (req, res, next) => {
-//     const { firstname, lastname, email, p_word } = req.body
-//     const hashp_word = md5(p_word)
-//     const newUser = { firstname, lastname, email, hashp_word }
-//
-//     for (const [key, value] of Object.entries(newUser)) {
-//       if (value == null) {
-//         return res.status(400).json({
-//           error: { message: `Missing '${key}' in request body` }
-//         })
-//       }
-//     }
-//
-//     UsersService.insertUser(
-//       req.app.get('db'),
-//       newUser
-//     )
-//       .then(user => {
-//         res
-//           .status(201)
-//           .location(path.posix.join(req.originalUrl, `/${user.id}`))
-//           .json(serializeUser(user))
-//       })
-//       .catch(next)
-// })
+
 
 authRouter
   .post('/',function(req,res){
@@ -50,6 +24,8 @@ authRouter
      }
      })
 })
+
+
 
 // listsRouter
 //   .route('/')
