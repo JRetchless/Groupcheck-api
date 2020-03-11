@@ -2,9 +2,12 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const AuthService = require('./auth-service')
+const knex = require('knex');
+
+const md5 = require('md5')
 
 const authRouter = express.Router()
-// const jsonParser = express.json()
+const jsonParser = express.json()
 
 // // const serializeList = list => ({
 // //   id: list.id,
@@ -17,12 +20,34 @@ const authRouter = express.Router()
 
 
 authRouter
-  .post('/',function(req,res){
-    knex('groupcheck_users').where('email',req.body['email']).where('p_word',md5(req.body['p_word'])).first()
-    .then(function(user){ if(user){ req.session.user=user; res.status(200).end(); }
-     else{ res.status(404).end();
-     }
-     })
+  .route('/')
+  .post(jsonParser,function(req,res){
+
+    let { email, p_word } = req.body
+    p_word= md5(p_word)
+
+    AuthService.getUser(
+      req.app.get('db'), req.body.email, p_word
+    )
+    .then(data => {
+      res.json({"user_id": data.id})
+
+      if(data && data['id']){
+        res.json({"status": 'success'})
+      }
+      res.status(400).end()
+    })
+
+
+    // res.json({"email": req.body.email, "p_word": req.body.p_word})
+
+    // res.json({"email": email, "p_word": p_word})
+    // res.json(req.session)
+    
+    // .then(function(user){ if(user){ req.session.user=user; res.status(200).end(); }
+    //  else{ res.status(404).end();
+    //  }
+    //  })
 })
 
 
