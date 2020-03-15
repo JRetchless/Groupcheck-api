@@ -32,7 +32,6 @@ const serializeItem = item => ({
   user_id: item.user_id
 })
 
-<<<<<< seth
 //make another post for login, piece of middleware for routes other than login (you want to authenticate everything else)
 //this is why the routes should be split up. For all of the routes other than the users route you want the auth middleware
 
@@ -107,7 +106,6 @@ usersRouter
   //     const { name, author } = req.body
   //     const newList = { name, author }
   //    newList.author = req.params.user_id
-
   //     for (const [key, value] of Object.entries(newList)) {
   //       if (value == null) {
   //         return res.status(400).json({
@@ -173,7 +171,6 @@ usersRouter
     })
     .catch(next)
 })
-
   // usersRouter
   // .route('/')
   // .post((req, res) => {
