@@ -32,8 +32,11 @@ const serializeItem = item => ({
   user_id: item.user_id
 })
 
+<<<<<< seth
 //make another post for login, piece of middleware for routes other than login (you want to authenticate everything else)
 //this is why the routes should be split up. For all of the routes other than the users route you want the auth middleware
+
+
 
 usersRouter
   .route('/:user_id')
