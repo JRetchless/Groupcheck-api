@@ -27,6 +27,10 @@ authRouter
     let { email, p_word } = req.body
     p_word= md5(p_word)
 
+    /* seth having db issues, so faking the response: */
+    res.json({"status": 'success', 'user_id': 1})
+    /* end temporary patch */
+    
     AuthService.getUser(
       req.app.get('db'), email, p_word
     )
@@ -45,7 +49,7 @@ authRouter
 
     // res.json({"email": email, "p_word": p_word})
     // res.json(req.session)
-    
+
     // .then(function(user){ if(user){ req.session.user=user; res.status(200).end(); }
     //  else{ res.status(404).end();
     //  }
