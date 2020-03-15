@@ -39,6 +39,7 @@ app.use('/api/users/:user_id', usersRouter)
 // app.use('/api/:user_id/:list_id', itemsRouter )
 app.use('/api/login', authRouter)
 
+// app.use('/api/signup', usersRouter)
 
 
 app.get('/', (req, res) => {
