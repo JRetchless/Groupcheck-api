@@ -16,8 +16,11 @@ const app = express()
 
 app.set('trust proxy', 1)
 // trust first proxy
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { secure: true }, user: 'test' }))
+
+// app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { secure: true }, user: 'test' }))
+
 //write piece of middleware that verifies that they were logged in before I give them access to routes
+
 //now each request will have a session field so I can use that field to store some data about each session
 //
 
@@ -45,9 +48,8 @@ app.use('/api/login', authRouter)
 app.get('/', (req, res) => {
     res.send('Hello, world!')
 })
-// app.use('/api', (req, res) => {
-//     res.send('Nice try asshole, login first')
-// })
+
+
 
 app.use(function errorHandler(error, req, res, next) {
     let response
