@@ -28,9 +28,9 @@ authRouter
     p_word= md5(p_word)
 
     /* seth having db issues, so faking the response: */
-    res.json({"status": 'success', 'user_id': 1})
+    res.json({"status": 'success', "id": 1})
     /* end temporary patch */
-    
+
     AuthService.getUser(
       req.app.get('db'), email, p_word
     )
@@ -39,7 +39,7 @@ authRouter
 
       if(data){
         const user = serializeUser(data)
-        res.json({"status": 'success', 'user_id': user.id})
+        res.json({"status": 'success', "id": user.id})
       }
       res.status(400).end()
     })
