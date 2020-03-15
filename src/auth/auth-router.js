@@ -28,7 +28,7 @@ authRouter
     p_word= md5(p_word)
 
     /* seth having db issues, so faking the response: */
-    res.json({"status": 'success', "id": 1})
+    res.json({"status": 'success', "id": 6})
     /* end temporary patch */
 
     AuthService.getUser(
