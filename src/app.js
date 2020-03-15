@@ -8,15 +8,15 @@ const { NODE_ENV } = require('./config')
 // const {API_BASE_URL} = require('./config');
 // const listsRouter = require('./lists/lists-router');
 const usersRouter = require('./users/users-router');
-// const itemsRouter = require('./items/items-router');
 const authRouter = require('./auth/auth-router');
+// const itemsRouter = require('./items/items-router');
 const session = require('express-session');
 
 const app = express()
 
-app.set('trust proxy', 1) 
-// trust first proxy 
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { secure: true } }))
+app.set('trust proxy', 1)
+// trust first proxy
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { secure: true }, user: 'test' }))
 //write piece of middleware that verifies that they were logged in before I give them access to routes
 //now each request will have a session field so I can use that field to store some data about each session
 //
@@ -35,9 +35,10 @@ app.use('/api/users', usersRouter)
 // app.use('/api/lists', listsRouter)
 // app.use('/api/items', itemsRouter)
 // app.use('/api/:user_id', usersRouter)
-// app.use('/api/users/:user_id', listsRouter)
+app.use('/api/users/:user_id', usersRouter)
 // app.use('/api/:user_id/:list_id', itemsRouter )
 app.use('/api/login', authRouter)
+
 // app.use('/api/signup', usersRouter)
 
 
@@ -45,7 +46,7 @@ app.get('/', (req, res) => {
     res.send('Hello, world!')
 })
 // app.use('/api', (req, res) => {
-//     res.send('Nice try, login first')
+//     res.send('Nice try asshole, login first')
 // })
 
 app.use(function errorHandler(error, req, res, next) {

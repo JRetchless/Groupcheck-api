@@ -32,33 +32,10 @@ const serializeItem = item => ({
   user_id: item.user_id
 })
 
-usersRouter
-  .route('/signup')
-  .post(jsonParser, (req, res, next) => {
-    const { firstname, lastname, email, p_word } = req.body
-    const hashp_word = md5(p_word)
-    const newUser = { firstname, lastname, email, hashp_word }
+<<<<<< seth
+//make another post for login, piece of middleware for routes other than login (you want to authenticate everything else)
+//this is why the routes should be split up. For all of the routes other than the users route you want the auth middleware
 
-    for (const [key, value] of Object.entries(newUser)) {
-      if (value == null) {
-        return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        })
-      }
-    }
-
-    UsersService.insertUser(
-      req.app.get('db'),
-      newUser
-    )
-      .then(user => {
-        res
-          .status(201)
-          .location(path.posix.join(req.originalUrl, `/${user.id}`))
-          .json(serializeUser(user))
-      })
-      .catch(next)
-})
 
 
 usersRouter
@@ -83,11 +60,10 @@ usersRouter
     res.json(serializeUser(res.user))
   })
   .delete((req, res, next) => {
-
-    UsersService.deleteUser(
-      req.app.get('db'),
-      req.params.user_id
-    )
+      UsersService.deleteUser(
+        req.app.get('db'),
+        req.params.user_id
+      )
       .then(numRowsAffected => {
         res.status(204).end()
       })
@@ -116,51 +92,52 @@ usersRouter
       .catch(next)
   })
 // everything above this works :D
-  usersRouter
-    .route('/:user_id/lists')
-    .get((req, res) => {
-      UsersService.getAllLists(
-        req.app.get('db'),
-        req.params.user_id
-      )
-    .then(lists => {
-      res.json(lists.map(serializeList))
-    }) 
-  })
-    .post(jsonParser, (req, res, next) => {
-      const { name, author } = req.body
-      const newList = { name, author }
-     newList.author = req.params.user_id
+  // usersRouter
+  //   .route('/:user_id/lists')
+  //   .get((req, res) => {
+  //     UsersService.getAllLists(
+  //       req.app.get('db'),
+  //       req.params.user_id
+  //     )
+  //   .then(lists => {
+  //     res.json(lists.map(serializeList))
+  //   })
+  // })
+  //   .post(jsonParser, (req, res, next) => {
+  //     const { name, author } = req.body
+  //     const newList = { name, author }
+  //    newList.author = req.params.user_id
 
-      for (const [key, value] of Object.entries(newList)) {
-        if (value == null) {
-          return res.status(400).json({
-            error: { message: `Missing '${key}' in request body` }
-          })
-        }
-      }
-      UsersService.insertList(
-        req.app.get('db'),
-        newList
-      )
-        .then(list => {
-          res
-            .status(201)
-            .json(serializeList(list))
-        })
-        .catch(next)
-      })
-      .delete((req, res, next) => {
-        UsersService.deleteList(
-          req.app.get('db'),
-          req.params.list_id
-        )
-          .then(numRowsAffected => {
-            res.status(204).end()
-          })
-          .catch(next)
-      })
-      usersRouter
+  //     for (const [key, value] of Object.entries(newList)) {
+  //       if (value == null) {
+  //         return res.status(400).json({
+  //           error: { message: `Missing '${key}' in request body` }
+  //         })
+  //       }
+  //     }
+  //     UsersService.insertList(
+  //       req.app.get('db'),
+  //       newList
+  //     )
+  //       .then(list => {
+  //         res
+  //           .status(201)
+  //           .json(serializeList(list))
+  //       })
+  //       .catch(next)
+  //     })
+  //     .delete((req, res, next) => {
+  //       UsersService.deleteList(
+  //         req.app.get('db'),
+  //         req.params.list_id
+  //       )
+  //         .then(numRowsAffected => {
+  //           res.status(204).end()
+  //         })
+  //         .catch(next)
+  //     })
+
+usersRouter
   .route('/:user_id/lists/:list_id')
   .get((req, res) => {
     UsersService.getListItems(
@@ -195,13 +172,10 @@ usersRouter
         .json(serializeItem(item))
     })
     .catch(next)
-}) 
-
-
-
+})
 
   // usersRouter
-  // .route('/auth')
+  // .route('/')
   // .post((req, res) => {
   //   const { firstname, lastname, username, password } = req.body
   //   res.send('hello youve reached the endpoint')
@@ -213,5 +187,36 @@ usersRouter
   // .then(items => {
   //   // res.json(items.map(serializeItem))
   // })
+  usersRouter
+  .route('/')
+  .post(jsonParser, (req, res, next) => {
+
+    // res.send('firstname: ' + req.body.firstname + 'lastname: '
+    //  + req.body.lastname + 'email: ' + req.body.email +
+    //   'p_word: ' + req.body.p_word)
+    let { firstname, lastname, email, p_word } = req.body
+    p_word = md5(p_word)
+    const newUser = { firstname, lastname, email, p_word }
+    res.json(newUser)
+    for (const [key, value] of Object.entries(newUser)) {
+      if (value == null) {
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` }
+        })
+      }
+    }
+
+    UsersService.insertUser(
+      req.app.get('db'),
+      newUser
+    )
+      .then(user => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${user.id}`))
+          .json(serializeUser(user))
+      })
+      .catch(next)
+})
 
 module.exports = usersRouter

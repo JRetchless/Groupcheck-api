@@ -7,7 +7,7 @@
 // const jsonParser = express.json()
 // // AUTH CODE BELOW
 // itemsRouter.use(function(req,res,next){ if(req.session.user) { next() } else { res.status(403).end() } })
-// // if there is that user field  in the session, then they can continue otherwise they cant continue
+// if there is that user field  in the session, then they can continue otherwise they cant continue
 
 // const serializeItem = item => ({
 //   id: item.id,
