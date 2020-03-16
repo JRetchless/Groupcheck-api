@@ -18,11 +18,10 @@ const serializeItem = item => ({
   user_id: item.user_id
 })
 itemsRouter
-.route('/:user_id/:list_id')
+.route('/:list_id')
 .get((req, res) => {
   ItemsService.getListItems(
     req.app.get('db'),
-    req.params.user_id,
     req.params.list_id
   )
     .then(items => {
@@ -86,4 +85,4 @@ itemsRouter
 //       .catch(next)
 //   })
 
-// module.exports = itemsRouter
+module.exports = itemsRouter

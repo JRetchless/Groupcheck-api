@@ -1,6 +1,6 @@
 const ItemsService = {
-    getListItems(knex, user_id, list_id) {
-        return knex.select('*').from('groupcheck_items').where('user_id', user_id).andWhere('list_id', list_id)
+    getListItems(knex, list_id) {
+        return knex.select('*').from('groupcheck_items').where('list_id', list_id)
       },
     insertItem(knex, newItem) {
       return knex
