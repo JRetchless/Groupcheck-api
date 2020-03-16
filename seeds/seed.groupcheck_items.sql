@@ -4,4 +4,4 @@ VALUES
     ('second item', 'testy test', 2, 2, 2),
     ('third item', 'testy test', 3, 2, 1),
     ('fourth item', 'testy test', 1, 2, 1), 
-    ('fifth item', 'testy test', 2, 2, 1)
+    ('fifth item', 'testy test', 2, 2, 1);
