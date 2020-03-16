@@ -27,9 +27,9 @@ authRouter
     let { email, p_word } = req.body
     p_word= md5(p_word)
 
-    /* seth having db issues, so faking the response: */
-    res.json({"status": 'success', "id": 6})
-    /* end temporary patch */
+    // /* seth having db issues, so faking the response: */
+    // res.json({"status": 'success', "id": 6})
+    // /* end temporary patch */
 
     AuthService.getUser(
       req.app.get('db'), email, p_word
