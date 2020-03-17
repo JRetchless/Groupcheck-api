@@ -35,6 +35,29 @@ const serializeItem = item => ({
 //make another post for login, piece of middleware for routes other than login (you want to authenticate everything else)
 //this is why the routes should be split up. For all of the routes other than the users route you want the auth middleware
 
+usersRouter
+  // .route('/')
+  // .post(jsonParser, (req, res, next) => {
+  //   const { firstname, lastname, email, password } = req.body
+  //   const newUser = { firstname, lastname, email, password }
+  //     for (const [key, value] of Object.entries(newUser)) {
+  //   if (value == null) {
+  //     return res.status(400).json({
+  //       error: { message: `Missing '${key}' in request body` }
+  //     })
+  //   }
+  // }
+  // UsersService.insertUser(
+  //   req.app.get('db'),
+  //   newUser
+  // )
+  //   .then(user => {
+  //     res
+  //       .status(201)
+  //       .json(serializeUser(user))
+  //   })
+  //   .catch(next)
+  // })
 
 
 usersRouter
@@ -192,9 +215,9 @@ usersRouter
     //  + req.body.lastname + 'email: ' + req.body.email +
     //   'p_word: ' + req.body.p_word)
     let { firstname, lastname, email, p_word } = req.body
-    p_word = md5(p_word)
+    // p_word = md5(p_word)
     const newUser = { firstname, lastname, email, p_word }
-    res.json(newUser)
+    // // res.json(newUser)
     for (const [key, value] of Object.entries(newUser)) {
       if (value == null) {
         return res.status(400).json({
@@ -212,6 +235,7 @@ usersRouter
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${user.id}`))
           .json(serializeUser(user))
+
       })
       .catch(next)
 })
