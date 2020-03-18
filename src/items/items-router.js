@@ -28,30 +28,30 @@ itemsRouter
         res.json(items.map(serializeItem))
     })
 })
-// .post(jsonParser, (req, res, next) => {
-// const { name, content, priority, list_id, user_id } = req.body
-// const newItem = { name, content, priority, list_id, user_id }
+.post(jsonParser, (req, res, next) => {
+const { name, content, priority, list_id, user_id } = req.body
+const newItem = { name, content, priority, list_id, user_id }
 
-// newItem.list_id = req.params.list_id;
-// newItem.user_id = req.params.user_id;
-// for (const [key, value] of Object.entries(newItem)) {
-//   if (value == null) {
-//     return res.status(400).json({
-//       error: { message: `Missing '${key}' in request body` }
-//     })
-//   }
-// }
-// UsersService.insertItem(
-//   req.app.get('db'),
-//   newItem
-// )
-//   .then(item => {
-//     res
-//       .status(201)
-//       .json(serializeItem(item))
-//   })
-//   .catch(next)
-// }) 
+newItem.list_id = req.params.list_id;
+newItem.user_id = req.params.user_id;
+for (const [key, value] of Object.entries(newItem)) {
+  if (value == null) {
+    return res.status(400).json({
+      error: { message: `Missing '${key}' in request body` }
+    })
+  }
+}
+UsersService.insertItem(
+  req.app.get('db'),
+  newItem
+)
+  .then(item => {
+    res
+      .status(201)
+      .json(serializeItem(item))
+  })
+  .catch(next)
+}) 
 // //   .delete((req, res, next) => {
 // //     ItemsService.deleteItem(
 // //       req.app.get('db'),

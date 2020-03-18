@@ -30,29 +30,28 @@ listsRouter
   res.json(lists.map(serializeList))
 }) 
 })
-// .post(jsonParser, (req, res, next) => {
-//   const { name, author } = req.body
-//   const newList = { name, author }
-//  newList.author = req.query.user_id
-
-//   for (const [key, value] of Object.entries(newList)) {
-//     if (value == null) {
-//       return res.status(400).json({
-//         error: { message: `Missing '${key}' in request body` }
-//       })
-//     }
-//   }
-//   ListsService.insertList(
-//     req.app.get('db'),
-//     newList
-//   )
-//     .then(list => {
-//       res
-//         .status(201)
-//         .json(serializeList(list))
-//     })
-//     .catch(next)
-//   })
+.post(jsonParser, (req, res, next) => {
+  const { name, author } = req.body
+  const newList = { name, author }
+  newList.author = req.params.author
+  for (const [key, value] of Object.entries(newList)) {
+    if (value == null) {
+      return res.status(400).json({
+        error: { message: `Missing '${key}' in request body` }
+      })
+    }
+  }
+  ListsService.insertList(
+    req.app.get('db'),
+    newList
+  )
+    .then(list => {
+      res
+        .status(201)
+        .json(serializeList(list))
+    })
+    .catch(next)
+  })
 //   .delete((req, res, next) => {
 //     ListsService.deleteList(
 //       req.app.get('db'),
