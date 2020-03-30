@@ -27,7 +27,7 @@ authRouter
     let { email, p_word } = req.body
     p_word= md5(p_word)
 
-    // /* seth having db issues, so faking the response: */
+    // /*having db issues, so faking the response: */
     // res.json({"status": 'success', "id": 6})
     // /* end temporary patch */
 
@@ -36,9 +36,14 @@ authRouter
     )
     .then(data => {
       // res.json({"testing": data.email})
+      console.log('console.log data authrouter')
+      console.log(data)
 
       if(data){
         const user = serializeUser(data)
+        req.session.user= user
+        console.log('req.session.user from auth-router')
+        console.log(req.session.user)
         res.json({"status": 'success', "id": user.id})
       }
       res.status(400).end()

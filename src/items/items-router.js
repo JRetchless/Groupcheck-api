@@ -33,7 +33,6 @@ const { name, content, priority, list_id, user_id } = req.body
 const newItem = { name, content, priority, list_id, user_id }
 
 newItem.list_id = req.params.list_id;
-newItem.user_id = req.params.user_id;
 for (const [key, value] of Object.entries(newItem)) {
   if (value == null) {
     return res.status(400).json({
@@ -41,7 +40,7 @@ for (const [key, value] of Object.entries(newItem)) {
     })
   }
 }
-UsersService.insertItem(
+ItemsService.insertItem(
   req.app.get('db'),
   newItem
 )

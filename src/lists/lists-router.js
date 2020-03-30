@@ -6,7 +6,7 @@ const ListsService = require('./lists-service')
 const listsRouter = express.Router()
 const jsonParser = express.json()
 
-// listsRouter.use(function(req,res,next){ if(req.session.user) { next() } else { res.status(403).end() } })
+listsRouter.use(function(req,res,next){ if(req.session.user) { next() } else { res.status(403).end() } })
 
 
 const serializeList = list => ({
@@ -33,7 +33,7 @@ listsRouter
 .post(jsonParser, (req, res, next) => {
   const { name, author } = req.body
   const newList = { name, author }
-  newList.author = req.params.author
+  newList.author = req.params.author //this would now be req.session.user.id
   for (const [key, value] of Object.entries(newList)) {
     if (value == null) {
       return res.status(400).json({
