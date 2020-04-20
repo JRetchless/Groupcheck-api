@@ -18,9 +18,10 @@ const ItemsService = {
       .where('id', id)
       .first()
     },
-    deleteItem(knex, id) {
+    deleteItem(knex, listId, itemId) {
       return knex('groupcheck_items')
-        .where({ id })
+        .where('list_id', listId)
+        .andWhere('id', itemId)
         .delete()
     },
     updateItem(knex, id, newItemFields) {

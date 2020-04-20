@@ -20,11 +20,11 @@ const serializeList = list => ({
   
   
 listsRouter
-.route('/:author')
+.route('/')
 .get((req, res) => {
   ListsService.getAllLists(
     req.app.get('db'),
-    req.params.author
+    req.session.user.id
     )
 .then(lists => {
   res.json(lists.map(serializeList))
@@ -33,7 +33,7 @@ listsRouter
 .post(jsonParser, (req, res, next) => {
   const { name, author } = req.body
   const newList = { name, author }
-  newList.author = req.params.author //this would now be req.session.user.id
+  newList.author = req.session.user.id //was req.params.author..or user? would now be req.session.user.id
   for (const [key, value] of Object.entries(newList)) {
     if (value == null) {
       return res.status(400).json({
@@ -62,6 +62,7 @@ listsRouter
 //       })
 //       .catch(next)
 //   })
+
 
 module.exports = listsRouter
 

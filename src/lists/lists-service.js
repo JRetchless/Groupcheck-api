@@ -8,9 +8,10 @@ const ListsService = {
             return rows[0]
         })
     },
-    getAllLists(knex, author) {
+    getAllLists(knex, author) {  
         return knex.select('*').from('groupcheck_lists').where('author', author)
     }
+    //add comma after line 13
 // //     deleteList(knex, id) {
 // //         return knex('groupcheck_lists')
 // //           .where({ id })
