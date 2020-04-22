@@ -51,17 +51,22 @@ ItemsService.insertItem(
   })
   .catch(next)
 }) 
-  .delete((req, res, next) => {
-    ItemsService.deleteItem(
-      req.app.get('db'),
-      req.params.list_id,
-      req.params.id
-    )
-      .then(numRowsAffected => {
-        res.status(204).end()
-      })
-      .catch(next)
-  })
+  // .delete((req, res, next) => {
+  //   const {list_id, id} = req.body
+  //   console.log('listID')
+  //   console.log(req.params.list_id)
+  //   console.log('itemID')
+  //   console.log(req.params.id)
+  //   ItemsService.deleteItem(
+  //     req.app.get('db'),
+  //     req.params.list_id,
+  //     req.params.id
+  //   )
+  //     .then(numRowsAffected => {
+  //       res.status(204).end()
+  //     })
+  //     .catch(next)
+  // })
   // .patch(jsonParser, (req, res, next) => {
   //   const { name, content, priority } = req.body
   //   const itemToUpdate = { name, content, priority }
@@ -84,5 +89,23 @@ ItemsService.insertItem(
   //     })
   //     .catch(next)
   // })
+
+  itemsRouter
+  .route('/:list_id/:item')
+  .delete((req, res, next) => {
+    console.log('listID')
+    console.log(req.params.list_id)
+    console.log('item')
+    console.log(req.params.item)
+    ItemsService.deleteItem(
+      req.app.get('db'),
+      req.params.list_id,
+      req.params.item
+    )
+      .then(numRowsAffected => {
+        res.send('worked!').status(204).end()
+      })
+      .catch(next)
+  })
 
 module.exports = itemsRouter
