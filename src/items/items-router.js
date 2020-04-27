@@ -31,7 +31,6 @@ itemsRouter
 .post(jsonParser, (req, res, next) => {
 const { name, content, priority, list_id, user_id } = req.body
 const newItem = { name, content, priority, list_id, user_id }
-
 newItem.list_id = req.params.list_id;
 for (const [key, value] of Object.entries(newItem)) {
   if (value == null) {

@@ -52,16 +52,18 @@ listsRouter
     })
     .catch(next)
   })
-//   .delete((req, res, next) => {
-//     ListsService.deleteList(
-//       req.app.get('db'),
-//       req.params.list_id
-//     )
-//       .then(numRowsAffected => {
-//         res.status(204).end()
-//       })
-//       .catch(next)
-//   })
+  listsRouter
+  .route('/:list_id')
+  .delete((req, res, next) => {
+    ListsService.deleteList(
+      req.app.get('db'),
+      req.params.list_id
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
 
 
 module.exports = listsRouter

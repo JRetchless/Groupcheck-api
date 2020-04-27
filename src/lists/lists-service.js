@@ -10,18 +10,18 @@ const ListsService = {
     },
     getAllLists(knex, author) {  
         return knex.select('*').from('groupcheck_lists').where('author', author)
-    }
+    },
     //add comma after line 13
-// //     deleteList(knex, id) {
-// //         return knex('groupcheck_lists')
-// //           .where({ id })
-// //           .delete()
-// //     },
-// //     updateList(knex, id, newListField) {
-// //         return knex('groupcheck_lists')
-// //         .where({ id })
-// //         .update(newListField)
-// //     }
+    deleteList(knex, id) {
+        return knex('groupcheck_lists')
+          .where({ id })
+          .delete()
+    },
+//     updateList(knex, id, newListField) {
+//         return knex('groupcheck_lists')
+//         .where({ id })
+//         .update(newListField)
+//     }
   
 }
 
