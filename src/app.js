@@ -10,6 +10,7 @@ const listsRouter = require('./lists/lists-router');
 const usersRouter = require('./users/users-router');
 const authRouter = require('./auth/auth-router');
 const itemsRouter = require('./items/items-router');
+const shareRouter = require('./share/share-router');
 const session = require('express-session');
 
 const app = express()
@@ -46,6 +47,8 @@ app.use('/api/items', itemsRouter)
 app.use('/api/users/:user_id', usersRouter)
 // app.use('/api/:user_id/:list_id', itemsRouter )
 app.use('/api/login', authRouter)
+app.use('/api/share', shareRouter)
+app.use('/api/share/:user_id/:list_id', shareRouter)
 
 // app.use('/api/signup', usersRouter)
 

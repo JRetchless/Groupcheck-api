@@ -23,9 +23,10 @@ shareRouter
 .route('/:userId/:listId')
 .post(jsonParser, (req, res, next) => {
     const { userId, listId } = req.body
-    const shareData = { userId, listId }
+    const shareData = { listId, sharerId, userId }
     shareData.userId = req.params.userId
     shareData.listId = req.params.listId
+    shareData.sharerId = req.session.user
     for (const [key, value] of Object.entries(shareData)) {
         if (value == null) {
             return res.status(400).json({

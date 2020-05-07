@@ -17,6 +17,11 @@ const ListsService = {
           .where({ id })
           .delete()
     },
+    deleteFromShare(knex, listId) {
+        return knex('groupcheck_shared_lists')
+            .where('list_id', listId)
+            .delete()
+    }
 //     updateList(knex, id, newListField) {
 //         return knex('groupcheck_lists')
 //         .where({ id })
