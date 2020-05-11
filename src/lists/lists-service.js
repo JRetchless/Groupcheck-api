@@ -12,15 +12,17 @@ const ListsService = {
         return knex.select('*').from('groupcheck_lists').where('author', author)
     },
     //add comma after line 13
-    deleteList(knex, id) {
-        return knex('groupcheck_lists')
+    deleteList(knex, id, table) {
+        return knex(table)
           .where({ id })
           .delete()
     },
-    deleteFromShare(knex, listId) {
-        return knex('groupcheck_shared_lists')
-            .where('list_id', listId)
-            .delete()
+    deleteFromAllLists(knex, id) {
+        return Promise.all([
+            this.deleteList(knex, id, 'groupcheck_lists'),
+            this.deleteList(knex, id, 'groupcheck_shared_lists'),
+            this.deleteList(knex, id, 'groupcheck_users_lists')
+        ])
     }
 //     updateList(knex, id, newListField) {
 //         return knex('groupcheck_lists')

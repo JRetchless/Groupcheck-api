@@ -33,7 +33,7 @@ listsRouter
 .post(jsonParser, (req, res, next) => {
   const { name, author } = req.body
   const newList = { name, author }
-  newList.author = req.session.user.id //was req.params.author..or user? would now be req.session.user.id
+  newList.author = req.session.user.id
   for (const [key, value] of Object.entries(newList)) {
     if (value == null) {
       return res.status(400).json({
@@ -55,10 +55,11 @@ listsRouter
   listsRouter
   .route('/:list_id')
   .delete((req, res, next) => {
-    ListsService.deleteList(
+    ListsService.deleteFromAllLists(
       req.app.get('db'),
       req.params.list_id
     )
+
       .then(numRowsAffected => {
         res.status(204).end()
       })
