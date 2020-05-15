@@ -44,11 +44,11 @@ app.use('/api/users', usersRouter)
 app.use('/api/lists', listsRouter)
 app.use('/api/items', itemsRouter)
 // app.use('/api/:user_id', usersRouter)
-app.use('/api/users/:user_id', usersRouter)
+// app.use('/api/users/:user_id', usersRouter)
 // app.use('/api/:user_id/:list_id', itemsRouter )
 app.use('/api/login', authRouter)
 app.use('/api/share', shareRouter)
-app.use('/api/share/:user_id/:list_id', shareRouter)
+// app.use('/api/share/:user_id/:list_id', shareRouter)
 
 // app.use('/api/signup', usersRouter)
 

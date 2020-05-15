@@ -11,7 +11,7 @@ const serializeUser = user => ({
 })
 
 const serializeShare = share => ({
-    id: share.id,
+    list_id: share.list_id,
     shared_by: xss(share.shared_by),
     shared_to: xss(share.shared_to)
 })
@@ -23,7 +23,11 @@ shareRouter
     req.params.email
     )
     .then(user => {
-        res.json(user.map(serializeUser))
+        console.dir('USER')
+        console.dir(user)
+        console.dir('USER.serialize')
+        console.dir(serializeUser(user))
+        res.json(serializeUser(user))
     })
 })
 
@@ -31,32 +35,64 @@ shareRouter
 shareRouter
 .route('/:user_id/:list_id')
 .post(jsonParser, (req, res, next) => {
-1    console.log('req.params.user_id')
+    console.log('req.params.user_id')
     console.log(req.params.user_id)
     console.log('req.params.list_id')
     console.log(req.params.list_id)
-    res.send('got your post request!')
+    const {list_id, shared_to } = req.body
+    const shared_by = String(req.session.user.id)
+    console.log('SHARED_BY')
+    console.dir(shared_by)
     const shareData = { list_id, shared_by, shared_to }
-    shareData.shared_to = req.params.user_id
     shareData.list_id = req.params.list_id
-    shareData.shared_by = req.session.user
-    for (const [key, value] of Object.entries(shareData)) {
-        if (value == null) {
-            return res.status(400).json({
-                error: { message: `Missing '${key}' in request body`}
-            })
+    shareData.shared_to = req.params.user_id
+    console.dir(shareData)
+    let serializedShare = serializeShare(shareData)
+    console.log('SERIALIZEDSHARE')
+    console.dir(serializedShare)
+    if(serializedShare && serializedShare.list_id){
+        for (const [key, value] of Object.entries(serializedShare)) {
+            if (value == null) {
+                return res.status(400).json({
+                    error: { message: `Missing '${key}' in request body`}
+                })
+            }
         }
+        console.log('calling checkforshare')
+        ShareService.checkForShare(
+            req.app.get('db'),
+            serializedShare
+        )
+        .then(data => {
+            if(data) {
+                console.log('data')
+                console.log(data)
+                return data
+            }else{
+                console.log('no data')
+               return ShareService.shareList(
+                    req.app.get('db'),
+                    serializedShare
+                )
+                // .then(list => {
+                //     console.dir(list)
+                //     // res
+                //     //     .status(201)
+                //     //     .json(serializeList(list))
+                // })
+                .catch(next)  
+            }
+        })
+        .then(data => {
+            if(data){
+                console.log('final response')
+                console.log(data)
+                res
+                    .status(201)
+                    .json(data)
+            }
+        })
     }
-    ShareService.shareList(
-        req.app.get('db'),
-        shareData
-    )
-    .then(list => {
-        res
-            .status(201)
-            .json(serializeList(list))
-    })
-    .catch(next)
 })
 
 module.exports = shareRouter
