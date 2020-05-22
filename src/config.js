@@ -7,5 +7,6 @@ module.exports = {
   PORT: process.env.PORT || 8000,
   NODE_ENV: process.env.NODE_ENV || 'development',
   DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres@localhost/groupcheck',
-  CLIENT_ORIGIN: "http://localhost:3000"
+  //deploying a db is separate, will need to change the database url once the db is deployed
+  CLIENT_ORIGIN: "*"
 }
