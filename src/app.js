@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const {CLIENT_ORIGIN} = require('./config');
+const { CLIENT_ORIGIN } = require('./config');
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 // const {API_BASE_URL} = require('./config');
@@ -27,7 +27,7 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 
 app.use(
     cors({
-        origin: CLIENT_ORIGIN,
+        Origin: CLIENT_ORIGIN,
         credentials: true
     })
 );
