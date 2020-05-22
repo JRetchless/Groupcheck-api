@@ -22,7 +22,7 @@ const serializeList = list => ({
 listsRouter
 .route('/')
 .get((req, res) => {
-  ListsService.getAllLists(
+  ListsService.getLists(
     req.app.get('db'),
     req.session.user.id
     )
@@ -65,7 +65,13 @@ listsRouter
       })
       .catch(next)
   })
-
-
+  listsRouter
+  .route('/shared')
+  .get((req, res) => {
+    ListsService.getSharedLists(req.app.get('db'), req.session.user.id)
+  .then(lists => {
+    console.log(lists)
+    res.json(lists.map(serializeList))
+  })
+})
 module.exports = listsRouter
-

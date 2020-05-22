@@ -8,10 +8,17 @@ const ListsService = {
             return rows[0]
         })
     },
-    getAllLists(knex, author) {  
-        return knex.select('*').from('groupcheck_lists').where('author', author)
+    getLists(knex, author) {
+        return knex.select('*')
+            .from('groupcheck_lists')
+            .where('author', author)
     },
-    //add comma after line 13
+    getSharedLists(knex, shared_to) {  
+        return knex.select('*')
+            .from('groupcheck_shared_lists')
+            .leftJoin('groupcheck_lists', 'groupcheck_lists.id', 'groupcheck_shared_lists.list_id')
+            .where('groupcheck_shared_lists.shared_to', shared_to)
+    },
     deleteList(knex, id, table) {
         return knex(table)
           .where({ id })
