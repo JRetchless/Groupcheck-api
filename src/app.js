@@ -18,7 +18,7 @@ const app = express()
 app.set('trust proxy', 1)
 // trust first proxy
 
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { secure: false }}))
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { sameSite: 'None', secure: false }}))
 
 //write piece of middleware that verifies that they were logged in before I give them access to routes
 
@@ -27,7 +27,7 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 
 app.use(
     cors({
-        Origin: CLIENT_ORIGIN,
+        origin: "https://groupcheck.jonretchless.now.sh",
         credentials: true
     })
 );
