@@ -29,8 +29,8 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 app.use(
     cors({
         origin: 
-        'http://localhost:3000',
-        // "https://groupcheck.jonretchless.now.sh",
+        // 'http://localhost:3000',
+        "https://groupcheck.jonretchless.now.sh",
         credentials: true
     })
 );
