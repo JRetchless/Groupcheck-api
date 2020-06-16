@@ -4,7 +4,6 @@ const AuthService = {
       first()
     },
   }
-  //.andWhere('p_word', p_word)
  
   module.exports = AuthService
   

@@ -1,4 +1,3 @@
-const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const ListsService = require('./lists-service')
@@ -7,7 +6,6 @@ const listsRouter = express.Router()
 const jsonParser = express.json()
 
 listsRouter.use(function(req,res,next){ if(req.session.user) { next() } else { res.status(403).end() } })
-
 
 const serializeList = list => ({
     id: list.id,
@@ -70,7 +68,6 @@ listsRouter
   .get((req, res) => {
     ListsService.getSharedLists(req.app.get('db'), req.session.user.id)
   .then(lists => {
-    console.log(lists)
     res.json(lists.map(serializeList))
   })
 })

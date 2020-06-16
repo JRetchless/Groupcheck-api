@@ -30,13 +30,7 @@ const ListsService = {
             this.deleteList(knex, id, 'groupcheck_shared_lists'),
             this.deleteList(knex, id, 'groupcheck_users_lists')
         ])
-    }
-//     updateList(knex, id, newListField) {
-//         return knex('groupcheck_lists')
-//         .where({ id })
-//         .update(newListField)
-//     }
-  
+    }  
 }
 
 module.exports = ListsService
