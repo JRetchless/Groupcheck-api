@@ -24,7 +24,8 @@ app.use(
     cors({
         origin:
             // 'http://localhost:3000',
-            "https://groupcheck.jonretchless.now.sh",
+            // "https://groupcheck.jonretchless.now.sh", previous name, vercel change. Kept JIC
+            "https://groupcheck.jonretchless.vercel.app",
         credentials: true
     })
 );
