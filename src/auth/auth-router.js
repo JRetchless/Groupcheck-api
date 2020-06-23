@@ -23,7 +23,6 @@ const serializeUser = user => ({
 authRouter
   .route('/')
   .post(jsonParser,function(req,res){
-    console.log(req.session)
     let { email, p_word } = req.body
     p_word= md5(p_word)
 

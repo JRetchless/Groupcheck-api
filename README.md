@@ -1,7 +1,7 @@
 <h1>GROUPCHECK</h1>
 <p> Enables users to create itemized lists, and share lists to other users for task/supply communication</p>
 <h2>Live Link:</h2>
-<p>https://groupcheck.jonretchless.now.sh</p>
+<p>https://groupcheck.jonretchless.vercel.app</p>
 <br>
 <br>
 <h2>Tech Used:</h2>
