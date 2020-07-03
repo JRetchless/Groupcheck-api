@@ -1,15 +1,12 @@
-const path = require('path')
-const express = require('express')
-const xss = require('xss')
+const express = require('express');
 
-logoutRouter= express.Router();
-
+logoutRouter = express.Router();
 
 logoutRouter
 .route('/')
-.get((req,res) => {
+.get((req, res) => {
     req.session.user = null;
-    res.end()
-})
+    res.end();
+});
 
-module.exports = logoutRouter
+module.exports = logoutRouter;

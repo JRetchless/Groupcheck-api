@@ -1,19 +1,19 @@
-const path = require('path')
-const express = require('express')
-const xss = require('xss')
-const UsersService = require('./users-service')
-const md5 = require('md5')
+const path = require('path');
+const express = require('express');
+const xss = require('xss');
+const md5 = require('md5');
+const UsersService = require('./users-service');
 
-const usersRouter = express.Router()
-const jsonParser = express.json()
+const usersRouter = express.Router();
+const jsonParser = express.json();
 
-const serializeUser = user => ({
+const serializeUser = (user) => ({
   id: user.id,
   firstname: xss(user.firstname),
   lastname: xss(user.lastname),
   email: xss(user.email),
   date_created: user.date_created,
-})
+});
 
 usersRouter
   .route('/:user_id')
@@ -22,61 +22,62 @@ usersRouter
       req.app.get('db'),
       req.params.user_id
     )
-      .then(user => {
+      .then((user) => {
         if (!user) {
           return res.status(404).json({
-            error: { message: `User doesn't exist` }
-          })
+            error: { message: "User doesn't exist" },
+          });
         }
-        res.user = user
-        next()
+        res.user = user;
+        next();
       })
-      .catch(next)
+      .catch(next);
   })
   .get((req, res, next) => {
-    res.json(serializeUser(res.user))
+    res.json(serializeUser(res.user));
   })
   .delete((req, res, next) => {
     UsersService.deleteUser(
       req.app.get('db'),
       req.params.user_id
     )
-      .then(numRowsAffected => {
-        res.status(204).end()
+      .then(() => {
+        res.status(204).end();
       })
-      .catch(next)
+      .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
-    const { firstname, lastname, email } = req.body
-    const userToUpdate = { firstname, lastname, email }
-    const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
-    if (numberOfValues === 0)
+    const { firstname, lastname, email } = req.body;
+    const userToUpdate = { firstname, lastname, email };
+    const numberOfValues = Object.values(userToUpdate).filter(Boolean).length;
+    if (numberOfValues === 0) {
       return res.status(400).json({
         error: {
-          message: `Request body must contain either 'firstname', 'lastname', or 'email'`
-        }
-      })
+          message: "Request body must contain either 'firstname', 'lastname', or 'email'",
+        },
+      });
+    }
 
     UsersService.updateUser(
       req.app.get('db'),
       req.params.user_id,
       userToUpdate
     )
-      .then(numRowsAffected => {
-        res.status(204).end()
+      .then(() => {
+        res.status(204).end();
       })
-      .catch(next)
-  })
+      .catch(next);
+});
 usersRouter
   .route('/')
   .post(jsonParser, (req, res, next) => {
-    let { firstname, lastname, email, p_word } = req.body
-    const newUser = { firstname, lastname, email, p_word }
+    let { firstname, lastname, email, p_word } = req.body;
+    const newUser = { firstname, lastname, email, p_word };
     for (const [key, value] of Object.entries(newUser)) {
       if (value == null) {
         return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        })
+          error: { message: `Missing '${key}' in request body` },
+        });
       }
     }
 
@@ -84,14 +85,13 @@ usersRouter
       req.app.get('db'),
       newUser
     )
-      .then(user => {
+      .then((user) => {
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${user.id}`))
-          .json(serializeUser(user))
-
+          .json(serializeUser(user));
       })
-      .catch(next)
-  })
+      .catch(next);
+});
 
-module.exports = usersRouter
+module.exports = usersRouter;

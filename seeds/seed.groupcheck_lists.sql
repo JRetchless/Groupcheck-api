@@ -3,4 +3,4 @@ VALUES
     ('first list', 1), 
     ('second list', 1),
     ('third list', 1), 
-    ('fourth list', 2)
+    ('fourth list', 2);

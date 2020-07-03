@@ -1,9 +1,9 @@
 const AuthService = {
-    getUser(knex, email, p_word) {
+    getUser (knex, email, p_word) {
       return knex.select('id').from('groupcheck_users').where('email', email).
-      first()
+      first();
     },
-  }
+  };
  
-  module.exports = AuthService
+  module.exports = AuthService;
   

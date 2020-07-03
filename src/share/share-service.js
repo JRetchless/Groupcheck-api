@@ -1,24 +1,22 @@
 const ShareService = {
     getUserFromEmail(knex, email) {
-        return knex.select('*').from('groupcheck_users').where('email', email ).first()
+        return knex.select('*').from('groupcheck_users').where('email', email).first();
     },
-    checkForShare(knex, shareData){
+    checkForShare(knex, shareData) {
         return knex
             .select('*')
             .from('groupcheck_shared_lists')
             .where('list_id', shareData.list_id)
             .andWhere('shared_to', shareData.shared_to)
-            .first()
+            .first();
     },
-    shareList(knex, shareData ) {
+    shareList(knex, shareData) {
         return knex
             .insert(shareData)
             .into('groupcheck_shared_lists')
             .returning('*')
-            .then(rows => {
-                return rows[0]
-        })
-    }
-}
+            .then((rows) => { return rows[0];});
+    },
+};
 
-module.exports = ShareService
+module.exports = ShareService;

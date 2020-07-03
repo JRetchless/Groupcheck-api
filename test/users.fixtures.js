@@ -15,10 +15,10 @@ function makeUsersArray() {
         lastname: 'Took',
         username: 'peregrin.took@shire.com',
         password: 'secret',
-      }
-    ]
+      },
+    ];
   }
-  
+
   module.exports = {
-    makeUsersArray
-  }
+    makeUsersArray,
+  };
