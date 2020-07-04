@@ -22,6 +22,11 @@ shareRouter
     ShareService.getUserFromEmail(req.app.get('db'),
     req.params.email,)
     .then((user) => {
+        if (!user) {
+            return res.status(404).json({
+               error: { message: "User doesn't exist" },
+            });
+        }
         console.dir('USER');
         console.dir(user);
         console.dir('USER.serialize');

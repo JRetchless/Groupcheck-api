@@ -67,7 +67,6 @@ describe('Lists Endpoints', function() {
           .expect(200)
           .expect((res) => {
             expect(res.body[0].name).to.eql(expectedList.name);
-            expect(res.body[0].content).to.eql(expectedList.content);
           });
       });
     });
@@ -128,7 +127,6 @@ describe('Lists Endpoints', function() {
           .expect(200)
           .expect((res) => {
             expect(res.body.name).to.eql(expectedList.name);
-            expect(res.body.content).to.eql(expectedList.content);
           });
       });
     });
@@ -145,8 +143,7 @@ describe('Lists Endpoints', function() {
     it(`creates an list, responding with 201 and the new list`, () => {
       const newList = {
         name: 'Test new list',
-        style: 'Listicle',
-        content: 'Test new list content...',
+        author: 1,
       };
       return supertest(app)
         .post('/api/lists')
@@ -154,7 +151,6 @@ describe('Lists Endpoints', function() {
         .expect(201)
         .expect((res) => {
           expect(res.body.name).to.eql(newList.name);
-          expect(res.body.content).to.eql(newList.content);
           expect(res.body).to.have.property('id');
           expect(res.headers.location).to.eql(`/api/lists/${res.body.id}`);
           const expected = new Intl.DateTimeFormat('en-US').format(new Date());
@@ -167,13 +163,12 @@ describe('Lists Endpoints', function() {
             .expect(res.body));
     });
 
-    const requiredFields = ['name', 'content'];
+    const requiredFields = ['name', 'author'];
 
     requiredFields.forEach((field) => {
       const newList = {
         name: 'Test new list',
-        style: 'Listicle',
-        content: 'Test new list content...',
+        author: 1,
       };
 
       it(`responds with 400 and an error message when the '${field}' is missing`, () => {
@@ -195,7 +190,6 @@ describe('Lists Endpoints', function() {
         .expect(201)
         .expect((res) => {
           expect(res.body.name).to.eql(expectedList.name);
-          expect(res.body.content).to.eql(expectedList.content);
         });
     });
   });
@@ -268,8 +262,7 @@ describe('Lists Endpoints', function() {
         const idToUpdate = 2;
         const updateList = {
           name: 'updated list name',
-          style: 'Interview',
-          content: 'updated list content',
+          author: 1,
         };
         const expectedList = {
           ...testLists[idToUpdate - 1],
@@ -292,7 +285,7 @@ describe('Lists Endpoints', function() {
           .send({ irrelevantField: 'foo' })
           .expect(400, {
             error: {
-              message: `Request body must contain either 'name' or 'content'`,
+              message: `Request body must contain 'name'`,
             },
           });
       });

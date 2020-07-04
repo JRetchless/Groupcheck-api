@@ -27,13 +27,18 @@ usersRouter
           return res.status(404).json({
             error: { message: "User doesn't exist" },
           });
+        } else if (user.params === null) {
+          return res.status(404).json({
+            error: { message: "bad request" },
+          });
         }
         res.user = user;
+        res.status(200);
         next();
       })
       .catch(next);
   })
-  .get((req, res, next) => {
+  .get((req, res ) => {
     res.json(serializeUser(res.user));
   })
   .delete((req, res, next) => {
@@ -41,7 +46,12 @@ usersRouter
       req.app.get('db'),
       req.params.user_id
     )
-      .then(() => {
+      .then((user) => {
+        if (!user){
+          res.status(404).json({
+            error: {message: "Not found"}
+          });
+        }
         res.status(204).end();
       })
       .catch(next);
@@ -50,7 +60,7 @@ usersRouter
     const { firstname, lastname, email } = req.body;
     const userToUpdate = { firstname, lastname, email };
     const numberOfValues = Object.values(userToUpdate).filter(Boolean).length;
-    if (numberOfValues === 0) {
+    if (numberOfValues === 3) {
       return res.status(400).json({
         error: {
           message: "Request body must contain either 'firstname', 'lastname', or 'email'",
