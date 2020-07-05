@@ -23,7 +23,7 @@ shareRouter
     req.params.email,)
     .then((user) => {
         if (!user) {
-            return res.status(404);
+            return res.status(404).end();
         }
         console.dir('USER');
         console.dir(user);
