@@ -50,8 +50,9 @@ listsRouter
   });
   listsRouter
   .route('/:list_id')
-  .delete((req, res, next) => {
-    if (req.session.user.id === req.body.author) {
+  .delete(jsonParser,(req, res, next) => {
+    const { author } = req.body;
+    if (req.session.user.id === { author }) {
       ListsService.deleteFromAllLists(
         req.app.get('db'),
         req.params.list_id
