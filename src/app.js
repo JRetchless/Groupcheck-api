@@ -23,7 +23,8 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 app.use(
     cors({
         origin:
-            "https://groupcheck.jonretchless.vercel.app",
+            "http://localhost:3000",
+            // "https://groupcheck.jonretchless.vercel.app",
         credentials: true,
     }),
 );

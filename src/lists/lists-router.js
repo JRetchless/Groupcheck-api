@@ -51,15 +51,21 @@ listsRouter
   listsRouter
   .route('/:list_id')
   .delete((req, res, next) => {
-    ListsService.deleteFromAllLists(
+    if (req.session.user.id === req.body.author) {
+      ListsService.deleteFromAllLists(
+        req.app.get('db'),
+        req.params.list_id
+      )
+    }
+    ListsService.deleteFromSharedLists(
       req.app.get('db'),
-      req.params.list_id
+      req.params.list_id,
+      req.session.user.id
     )
-
-      .then(() => {
+  .then(() => {
         res.status(204).end();
       })
-      .catch(next);
+      .catch(next)
   });
   listsRouter
   .route('/shared')

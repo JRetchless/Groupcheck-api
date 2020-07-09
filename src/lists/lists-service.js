@@ -19,6 +19,12 @@ const ListsService = {
             .leftJoin('groupcheck_lists', 'groupcheck_lists.id', 'groupcheck_shared_lists.list_id')
             .where('groupcheck_shared_lists.shared_to', shared_to);
     },
+    deleteFromSharedLists(knex, list_id, shared_to) {
+        return knex('groupcheck_shared_lists')
+            .where({ list_id })
+            .andWhere({ shared_to })
+            .delete();
+    },
     deleteList(knex, id, table) {
         return knex(table)
           .where({ id })
