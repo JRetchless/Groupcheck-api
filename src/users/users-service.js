@@ -2,6 +2,9 @@ const UsersService = {
     getAllUsers(knex) {
       return knex.select('*').from('groupcheck_users');
     },
+    lookForUser(knex, email) {
+      return knex.select('*').from('groupcheck_users').where({ email }).first();
+    },
     insertUser(knex, newUser) {
       return knex
         .insert(newUser)

@@ -80,7 +80,7 @@ usersRouter
 });
 usersRouter
   .route('/')
-  .post(jsonParser, (req, res, next) => {
+  .post(jsonParser, async (req, res, next) => {
     let { firstname, lastname, email, p_word } = req.body;
     const newUser = { firstname, lastname, email, p_word };
     for (const [key, value] of Object.entries(newUser)) {
@@ -90,16 +90,21 @@ usersRouter
         });
       }
     }
-
+    let allUsers = await UsersService.lookForUser(req.app.get('db'), newUser.email)
+    if (allUsers) {
+      return res.status(400).json({
+        error: { message: 'email is already in use' },
+      });
+    }
     UsersService.insertUser(
       req.app.get('db'),
       newUser
     )
-      .then((user) => {
-        res
-          .status(201)
-          .location(path.posix.join(req.originalUrl, `/${user.id}`))
-          .json(serializeUser(user));
+    .then((user) => {
+      res
+        .status(201)
+        .location(path.posix.join(req.originalUrl, `/${user.id}`))
+        .json(serializeUser(user));
       })
       .catch(next);
 });
