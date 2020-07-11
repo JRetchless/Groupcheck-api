@@ -25,10 +25,6 @@ shareRouter
         if (!user) {
             return res.status(404).end();
         }
-        console.dir('USER');
-        console.dir(user);
-        console.dir('USER.serialize');
-        console.dir(serializeUser(user));
         res.json(serializeUser(user));
     });
 });
@@ -58,7 +54,6 @@ shareRouter
             if (data) {
                 return data;
             }
-            console.log('no data');
             return ShareService.shareList(
                 req.app.get('db'),
                 serializedShare
