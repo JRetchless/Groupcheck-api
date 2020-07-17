@@ -18,6 +18,8 @@ const serializeList = (list) => ({
 listsRouter
 .route('/')
 .get((req, res) => {
+  console.log("REQ.SESSION.USER");
+  console.log(req.session.user);
   ListsService.getLists(
     req.app.get('db'),
     req.session.user.id,
