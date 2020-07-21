@@ -25,7 +25,7 @@ itemsRouter
     req.params.list_id,
   )
     .then((items) => {
-        res.json(items.map(serializeItem));
+      return res.json(items.map(serializeItem));
     });
 })
 .post(jsonParser, (req, res, next) => {
@@ -45,7 +45,7 @@ ItemsService.insertItem(
   newItem,
 )
   .then((item) => {
-    res
+    return res
       .status(201)
       .json(serializeItem(item));
   })
@@ -61,7 +61,7 @@ ItemsService.insertItem(
       req.params.item,
     )
       .then(() => {
-        res.send('worked!').status(204).end();
+        return res.send('worked!').status(204).end();
       })
       .catch(next);
   });

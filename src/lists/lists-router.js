@@ -23,7 +23,7 @@ listsRouter
     req.session.user.id,
     )
 .then((lists) => {
-  res.json(lists.map(serializeList));
+  return res.json(lists.map(serializeList));
 });
 })
 .post(jsonParser, (req, res, next) => {
@@ -42,7 +42,7 @@ listsRouter
     newList
   )
     .then((list) => {
-      res
+      return res
         .status(201)
         .json(serializeList(list));
     })
@@ -64,7 +64,7 @@ listsRouter
       req.session.user.id
     )
   .then(() => {
-        res.status(204).end();
+       return res.status(204).end();
       })
       .catch(next)
   });
@@ -73,7 +73,7 @@ listsRouter
   .get((req, res) => {
     ListsService.getSharedLists(req.app.get('db'), req.session.user.id)
   .then((lists) => {
-    res.json(lists.map(serializeList));
+    return res.json(lists.map(serializeList));
   });
 });
 module.exports = listsRouter;

@@ -39,7 +39,7 @@ usersRouter
       .catch(next);
   })
   .get((req, res ) => {
-    res.json(serializeUser(res.user));
+    return res.json(serializeUser(res.user));
   })
   .delete((req, res, next) => {
     UsersService.deleteUser(
@@ -48,11 +48,11 @@ usersRouter
     )
       .then((user) => {
         if (!user){
-          res.status(404).json({
+          return res.status(404).json({
             error: {message: "Not found"}
           });
         }
-        res.status(204).end();
+        return res.status(204).end();
       })
       .catch(next);
   })

@@ -30,7 +30,7 @@ authRouter
         req.session.user= user;
         res.json({ "status": "success", "id": user.id });
       }
-      res.status(400).end();
+      return res.status(400).end();
     });
 });
 

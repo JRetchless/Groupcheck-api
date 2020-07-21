@@ -25,7 +25,7 @@ shareRouter
         if (!user) {
             return res.status(404).end();
         }
-        res.json(serializeUser(user));
+       return res.json(serializeUser(user));
     });
 });
 
@@ -62,7 +62,7 @@ shareRouter
         })
         .then((data) => {
             if (data) {
-                res
+               return res
                     .status(201)
                     .json(data);
             }
