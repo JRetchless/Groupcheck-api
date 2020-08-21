@@ -18,7 +18,7 @@ app.set('trust proxy', 1);
 // trust first proxy
 
 // Middleware to set up session for auth
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { sameSite: 'None' , secure: true } }));
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { sameSite: 'None' , secure: process.env.NODE_ENV !== 'development' } }));
 
 app.use(
     cors({
