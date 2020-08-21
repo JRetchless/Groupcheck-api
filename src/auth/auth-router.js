@@ -28,7 +28,7 @@ authRouter
       if (data) {
         const user = serializeUser(data);
         req.session.user= user;
-        res.json({ "status": "success", "id": user.id });
+        res.json({ "status": "success", "id": user});
       }
       return res.status(400).end();
     });
