@@ -45,7 +45,7 @@ app.use('/api/share', shareRouter);
 app.get('/', (req, res) => {
     console.log("app.get /");
     console.dir(req.session);
-    res.send('Hello, '+req.session.user.firstname+'!');
+    res.send('Hello, '+req.session['user']['firstname']+'!');
 });
 
 app.use(function errorHandler(error, req, res, next) {
