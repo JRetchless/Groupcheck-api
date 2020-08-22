@@ -24,6 +24,8 @@ authRouter
       req.app.get('db'), email, p_word,
     )
     .then((data) => {
+      console.dir('authRouter .post data');
+      console.dir(data);
       if (data) {
         const user = serializeUser(data);
         req.session.user= user;
