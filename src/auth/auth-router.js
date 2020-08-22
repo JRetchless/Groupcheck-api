@@ -31,11 +31,12 @@ authRouter
         req.session.user= user;
         console.dir('session user has been set')
         console.dir(req.session.user)
-        res.json({ "status": "success", "id": user.id});
+        return res.json({ "status": "success", "id": user.id});
+      } else {
+        console.dir('authrouter has failed, req.session.user below')
+        console.dir(req.session.user);
+        return res.status(400).end();  
       }
-      console.dir('authrouter has failed, req.session.user below')
-      console.dir(req.session.user)
-      return res.status(400).end();
     });
 });
 
