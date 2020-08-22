@@ -18,7 +18,7 @@ app.set('trust proxy', 1);
 // trust first proxy
 
 // Middleware to set up session for auth
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false, cookie: { sameSite: 'None' , secure: process.env.NODE_ENV !== 'development' } }));
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true, cookie: { sameSite: 'None' , secure: process.env.NODE_ENV !== 'development' } }));
 
 app.use(
     cors({
@@ -43,7 +43,9 @@ app.use('/api/logout', logoutRouter);
 app.use('/api/share', shareRouter);
 
 app.get('/', (req, res) => {
-    res.send('Hello, world!');
+    console.log("app.get /");
+    console.dir(req.session);
+    res.send('Hello, '+req.session.user.firstname+'!');
 });
 
 app.use(function errorHandler(error, req, res, next) {

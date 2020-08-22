@@ -5,12 +5,18 @@ const ListsService = require('./lists-service');
 const listsRouter = express.Router();
 const jsonParser = express.json();
 
-listsRouter.use(function(req,res,next){ if(req.session.user) { next() } else { 
-  
-  console.dir('req session failed, req session data')
-  console.dir(req.session)
+listsRouter.use( function(req,res,next) { 
+    console.log('listsRouter req.session:');
+    console.dir(req.session);
 
-  res.status(403).end() } });
+    if(req.session.user) { 
+      next() 
+    } else { 
+      console.dir('req session failed, req session data')
+      console.dir(req.session)
+      res.status(403).end() 
+  } 
+});
 
 const serializeList = (list) => ({
     id: list.id,
