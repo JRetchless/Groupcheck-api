@@ -24,12 +24,12 @@ listsRouter
     req.app.get('db'),
     req.session.user.id,
     )
-.then((lists) => {
+  .then((lists) => {
   return res.json(lists.map(serializeList));
-})
-.catch((err) => {
-  console.log(err)
-});
+  })
+  .catch((err) => {
+    console.log(err)
+  });
 })
 .post(jsonParser, (req, res, next) => {
   const { name, author } = req.body;
