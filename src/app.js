@@ -14,11 +14,11 @@ const logoutRouter = require('./logout/logout-router');
 
 const app = express();
 
-app.set('trust proxy', 1);
-// trust first proxy
+// app.set('trust proxy', 1);
+// // trust first proxy
 
 // Middleware to set up session for auth
-app.use(session({ secret: 'keyboard cat', resave: false, saveUnitialized: true, cookie: { sameSite: 'None', secure: true} 
+app.use(session({ secret: 'keyboard cat', resave: false, saveUnitialized: true, proxy: true, cookie: { sameSite: 'None', secure: true} 
 
     // secret: 'keyboard cat', 
     // resave: false, 
