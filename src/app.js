@@ -32,7 +32,7 @@ app.use(session({
     secret: 'keyboard cat', 
     name: 'some session name',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         domain: "https://groupcheck.jonretchless.vercel.app/",
         maxAge: 3600,
