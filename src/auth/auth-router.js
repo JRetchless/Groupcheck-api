@@ -2,7 +2,6 @@ const express = require('express');
 const xss = require('xss');
 const md5 = require('md5');
 const AuthService = require('./auth-service');
-
 const authRouter = express.Router();
 const jsonParser = express.json();
 
