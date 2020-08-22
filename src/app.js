@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express-session');
+var MemoryStore = require('memorystore')(session);
 const { NODE_ENV } = require('./config');
 const listsRouter = require('./lists/lists-router');
 const usersRouter = require('./users/users-router');
@@ -16,9 +17,21 @@ const app = express();
 
 app.set('trust proxy', 1);
 // trust first proxy
-
+/*
+example...
+app.use(session({
+    store: new RedisStore({
+        pass: 'asdf',
+    }),
+    secret: 'asdf',
+    proxy: true,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}))
+*/
 // Middleware to set up session for auth
-app.use(session({ secret: 'keyboard cat', resave: false, saveUnitialized: true, cookie: { sameSite: 'None', secure: true} 
+app.use(session({ secret: 'keyboard cat', store: new MemoryStore({ checkPeriod: 86400000 }), proxy: true, resave: false, saveUnitialized: true, cookie: { sameSite: 'None', secure: true} 
 
     // secret: 'keyboard cat', 
     // resave: false, 
