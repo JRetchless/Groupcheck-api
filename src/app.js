@@ -50,7 +50,7 @@ app.use(
         origin:
             "https://groupcheck.jonretchless.vercel.app",
         credentials: true,
-        allowedHeaders: ["Cookie"],
+        allowedHeaders: ["Cookie", "Content-Type"],
         exposedHeaders: ["Set-Cookie"],
     }),
 );
