@@ -5,6 +5,7 @@ const ListsService = require('./lists-service');
 const listsRouter = express.Router();
 const jsonParser = express.json();
 
+//AUTH CODE
 listsRouter.use( function(req,res,next) { 
     console.log('listsRouter req.session:');
     console.dir(req.session);
@@ -17,7 +18,7 @@ listsRouter.use( function(req,res,next) {
       res.status(403).end() 
   } 
 });
-
+//
 const serializeList = (list) => ({
     id: list.id,
     name: xss(list.name),

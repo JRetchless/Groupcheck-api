@@ -18,27 +18,28 @@ app.set('trust proxy', 1);
 // trust first proxy
 
 // Middleware to set up session for auth
-app.use(session({ 
+app.use(session({ secret: 'keyboard cat', resave: false, saveUnitialized: true, cookie: { sameSite: 'None', secure: process.env.NODE_ENV !== 'development'} 
 
     // secret: 'keyboard cat', 
     // resave: false, 
     // saveUninitialized: true, 
     // cookie: { 
-    //     domain: "https://groupcheck.jonretchless.vercel.app/",
     //     sameSite: 'None' , 
     //     secure: process.env.NODE_ENV !== 'development' 
     // },
 
-    secret: 'keyboard cat', 
-    name: 'some session name',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        domain: "https://groupcheck.jonretchless.vercel.app/",
-        maxAge: 3600,
-        sameSite: "none",
-        secure: true,
-    }
+    // secret: 'keyboard cat', 
+    // name: 'some session name',
+    // resave: false,
+    // saveUninitialized: true,
+    // cookie: {
+    //     domain: "https://groupcheck.jonretchless.vercel.app/",
+    //     maxAge: 3600,
+    //     sameSite: "none",
+    //     secure: true,
+    // }
+        //     domain: "https://groupcheck.jonretchless.vercel.app/",
+
     //        httpOnly: true,
 
 //process.env.NODE_ENV !== 'development'
