@@ -26,6 +26,9 @@ listsRouter
     )
 .then((lists) => {
   return res.json(lists.map(serializeList));
+})
+.catch((err) => {
+  console.log(err)
 });
 })
 .post(jsonParser, (req, res, next) => {
