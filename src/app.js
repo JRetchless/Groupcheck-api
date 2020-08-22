@@ -19,7 +19,7 @@ app.set('trust proxy', 1);
 
 // Middleware to set up session for auth
 app.use(session({ 
-    
+
     // secret: 'keyboard cat', 
     // resave: false, 
     // saveUninitialized: true, 
