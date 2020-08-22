@@ -36,10 +36,11 @@ app.use(session({
     cookie: {
         domain: "https://groupcheck.jonretchless.vercel.app/",
         maxAge: 3600,
-        sameSite: true,
-        httpOnly: true,
+        sameSite: "none",
         secure: true,
     }
+    //        httpOnly: true,
+
 //process.env.NODE_ENV !== 'development'
 }));
 
