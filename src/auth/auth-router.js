@@ -33,6 +33,8 @@ authRouter
         console.dir(req.session.user)
         res.json({ "status": "success", "id": user.id});
       }
+      console.dir('authrouter has failed, req.session.user below')
+      console.dir(req.session.user)
       return res.status(400).end();
     });
 });
