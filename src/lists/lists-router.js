@@ -29,6 +29,7 @@ listsRouter
   })
   .catch((err) => {
     console.log(err)
+    return res.json({"error": "getLists failed"})
   });
 })
 .post(jsonParser, (req, res, next) => {
