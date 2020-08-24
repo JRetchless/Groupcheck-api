@@ -31,7 +31,7 @@ app.use(session({
 }))
 */
 // Middleware to set up session for auth
-app.use(session({ secret: 'keyboard cat', store: new MemoryStore({ checkPeriod: 86400000 }), proxy: true, resave: false, saveUnitialized: true, cookie: { sameSite: 'None', secure: true} 
+app.use(session({ secret: 'keyboard cat', proxy: true, resave: false, saveUnitialized: true, cookie: { sameSite: 'None', secure: true} 
 
     // secret: 'keyboard cat', 
     // resave: false, 
@@ -63,8 +63,6 @@ app.use(
         origin:
             "https://groupcheck.jonretchless.vercel.app",
         credentials: true,
-        allowedHeaders: ["Cookie", "Content-Type"],
-        exposedHeaders: ["Set-Cookie"],
     }),
 );
 
@@ -82,14 +80,7 @@ app.use('/api/login', authRouter);
 app.use('/api/logout', logoutRouter);
 app.use('/api/share', shareRouter);
 
-app.get('/', (req, res) => {
-    console.log("app.get /");
-    console.dir(req.session);
-    res.json({
-        'message': 'Hello, '+req.session['user']['firstname']+'!' 
-    });
-});
-
+app.use(express.static('build'))
 app.use(function errorHandler(error, req, res, next) {
     let response;
     if (NODE_ENV === 'production') {
